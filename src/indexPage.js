@@ -1,24 +1,30 @@
-import React, { useEffect, useState } from 'react'
-import { PokemonCard } from './PokemonCard'
-import axios from 'axios'
-import './style.css'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import PokemonCard from './PokemonCard';
+import './style.css';
 
 const IndexPage = () => {
-  const [pokemonList, setPokemonList] = useState([])
-  const [createPokemon, setCreatePokemon] = useState(false)
-  const [updateList, setUpdateList] = useState(0)
+  const [apiUrl] = useState('https://pokeapi.co/api/v2');
+  const [pokemonList, setPokemonList] = useState([]);
+  const [createPokemon, setCreatePokemon] = useState(false);
+  const [updateList, setUpdateList] = useState(0);
 
   useEffect(() => {
-    const request = async () => {
-      const { data } = await axios.get('http://localhost:4000/')
-      setPokemonList(data)
-    }
-    setTimeout(request, 1500)
-  }, [updateList])
+    const fetchPokemonList = async () => {
+      try {
+        const { data } = await axios.get(`${apiUrl}/pokemon?limit=151`);
+        setPokemonList(data.results);
+      } catch (error) {
+        console.error('Erro ao carregar lista de Pokémon:', error);
+      }
+    };
+
+    fetchPokemonList();
+  }, [apiUrl, updateList]);
 
   return (
     <main>
-      <h1>Coleção pessoal de POKÉMONS</h1>
+      <h1>Coleção pessoal de Pokémon</h1>
       <button onClick={() => setCreatePokemon(true)}>
         Adicionar Pokémon à sua coleção
       </button>
@@ -33,20 +39,20 @@ const IndexPage = () => {
         </div>
       )}
       <div className="pokemon-container">
-        {pokemonList.map(({ _id, name, imageUrl, evolution }) => (
+        {pokemonList.map((pokemon, index) => (
           <PokemonCard
-            key={_id}
-            id={_id}
-            name={name}
-            image={imageUrl}
-            evolution={evolution}
+            key={index}
+            id={index + 1} // Usando índice + 1 como ID (exemplo, adaptar conforme sua API)
+            name={pokemon.name}
+            imageUrl={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index + 1}.png`}
+            evolution={Math.floor(Math.random() * 4)} // Exemplo de evolução aleatória
             updateList={updateList}
             setUpdateList={setUpdateList}
           />
         ))}
       </div>
     </main>
-  )
-}
+  );
+};
 
-export default IndexPage
+export default IndexPage;

@@ -1,4 +1,5 @@
-# Organizar um código cedido para aluno. Ele terá que alterar nomes de funções, variáveis, componentes e até criar novos componentes para ter uma organização melhor do código e além disso praticar os atalhos ditos em aula.
+# Instalação do axios
+yarn add axios
 
-*Organização do código.
-## instalar a biblioteca axios
+# Rodar a aplicação junto com o json-server
+yarn json-server --watch  db.json --port 3400

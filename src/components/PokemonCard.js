@@ -1,5 +1,5 @@
-import axios from 'axios'
 import React, { useState } from 'react'
+import{updatePokemon, deletePokemon} from './api'
 
 export const PokemonCard = ({
   id,
@@ -14,31 +14,33 @@ export const PokemonCard = ({
   const [editPokemon, setEditPokemon] = useState(createPokemon ?? false)
   const [nameInput, setNameInput] = useState(name ?? '')
   const [imageUrlInput, setImageUrlInput] = useState(image ?? '')
+  
   const [evolutionInput, setEvolutionInput] = useState(evolution?.toString() ?? '')
-  const [apiUrl] = useState('http://localhost:3400/pokemons')
   const [apiImagem] = useState('https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon')
 
   const handleChangePokemon = () => {
     if (createPokemon) {
-      axios.post(apiUrl, {
+      createPokemon({
         name: nameInput,
         imageUrl: `${apiImagem}/${imageUrlInput}.png`,
         evolution: Number(evolutionInput)
       })
       setCreatePokemon(false)
     } else {
-      axios.put(`${apiUrl}/${id}`, {
+
+      updatePokemon(id, {
         name: nameInput,
         imageUrl: `${apiImagem}/${imageUrlInput}.png`,
         evolution: Number(evolutionInput)
       })
+   
       setEditPokemon(false)
     }
     setUpdateList(updateList + 1)
   }
 
   const handleDeletePokemon = () => {
-    axios.delete(`${apiUrl}/${id}`)
+    deletePokemon(id)
     setUpdateList(updateList + 1)
   }
 
@@ -61,7 +63,6 @@ export const PokemonCard = ({
             Url da imagem:
             <input
               type="number"
-              min={0}
               onChange={e => setImageUrlInput(e.target.value)}
               value={imageUrlInput}
             />

@@ -99,3 +99,18 @@ button:hover {
 .pokemon-card div label input {
   display: block;
 }
+
+ul {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding-bottom: 30px;
+}
+
+li {
+  list-style-type: none;
+}
+
+p{
+  text-align: center;
+}

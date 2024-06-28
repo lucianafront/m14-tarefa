@@ -1,24 +1,19 @@
 import React, { useEffect, useState } from 'react'
+import{getPokemons} from './api'
 import { PokemonCard } from './PokemonCard'
-import axios from 'axios'
-import './style.css'
 
-const IndexPage = () => {
+const TelaInicialPokemon = () => {
   const [pokemonList, setPokemonList] = useState([])
   const [createPokemon, setCreatePokemon] = useState(false)
   const [updateList, setUpdateList] = useState(0)
-  const[url] = useState('http://localhost:3400/pokemons')
 
   useEffect(() => {
     const request = async () => {
-      const { data } = await axios.get(url)
-      .catch((error) => {
-        console.log('error', error)
-      })
+      const data  = await getPokemons()
       setPokemonList(data)
     }
     setTimeout(request, 1500)
-  }, [updateList, url])
+  }, [updateList])
 
   return (
     <main>
@@ -26,7 +21,6 @@ const IndexPage = () => {
       <button onClick={() => setCreatePokemon(true)}>
         Adicionar Pokémon à sua coleção
       </button>
-
 
       {createPokemon && (
         <div className="create-card">
@@ -55,4 +49,4 @@ const IndexPage = () => {
   )
 }
 
-export default IndexPage
+export default TelaInicialPokemon

@@ -1,9 +1,14 @@
-import './App.css';
-import IndexPage from './indexPage';
+import Navegacao from "./components/Navegacao";
+import Rotas from "./components/Rotas";
+
+import "./App.css";
 
 function App() {
   return (
-    <IndexPage />
+    <>
+      <Navegacao />
+      <Rotas />
+    </>
   );
 }
 
